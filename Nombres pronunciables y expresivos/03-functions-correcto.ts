@@ -33,3 +33,10 @@
     }
 
 })();
+
+//Explicación de los cambios:
+//getMovieById: Cambié getAllMovies a getMovieById para indicar claramente que la función obtiene información de una película específica por su ID.
+//getMovieCastById: Cambié getAllMovieActors a getMovieCastById para especificar que la función obtiene el reparto de una película por su ID.
+//getActorBioById: Cambié getUsuario a getActorBioById para indicar que la función obtiene la biografía de un actor por su ID.
+//createMovie: Cambié movie a createMovie para indicar que la función crea una nueva película.
+//createActorIfNotExists: Cambié createActorIfActorNotExists a createActorIfNotExists para simplificar y hacer más claro el propósito de la función
