@@ -1,0 +1,17 @@
+
+
+Aquí están los cambios principales que he realizado:
+
+1. Renombré `fs` a `archivos` para mayor claridad.
+2. Cambié `f` a `paraBorrar` en la estructura de los archivos.
+3. Renombré `arhivos` (que tenía un error ortográfico) a `archivosMarcados`.
+4. Eliminé las clases y interfaces redundantes, dejando solo `Usuario`.
+5. Renombré las variables para que sean más descriptivas y estén en español:
+   - `ddmmyyyy` -> `fechaActual`
+   - `d` -> `diasTranscurridos`
+   - `dir` -> `cantidadArchivos`
+   - `dsm` -> `diasDesdeModificacion`
+   - `max` -> `maxClasesPorEstudiante`
+6. Eliminé los comentarios en inglés y los que eran redundantes con los nombres de las variables.
+
+Estos cambios hacen que el código sea más legible, mantenible y consistente con los principios de código limpio en español.
