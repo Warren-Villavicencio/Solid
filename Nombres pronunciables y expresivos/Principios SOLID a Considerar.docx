@@ -1,0 +1,10 @@
+SRP (Single Responsibility Principle): Cada clase debe tener una única responsabilidad.
+OCP (Open-Closed Principle): Las clases deben estar abiertas a extensión, pero cerradas a modificación.
+LSP (Liskov Substitution Principle): Los objetos de una subclase deben poder reemplazar a objetos de su superclase sin que el programa se rompa.
+ISP (Interface Segregation Principle): Muchas interfaces específicas son mejores que una interfaz general.
+DIP (Dependency Inversion Principle): Depende de abstracciones, no de concreciones.
+Consejos adicionales:
+
+Utiliza un linter: Herramientas como ESLint pueden ayudarte a mantener un estilo de codificación consistente y a detectar posibles errores.
+Revisa tus nombres regularmente: A medida que tu código evoluciona, es posible que necesites ajustar los nombres de las variables y funciones.
+Pide feedback a tus compañeros: Discute tus decisiones de nombramiento con otros desarrolladores para obtener diferentes perspectivas.
