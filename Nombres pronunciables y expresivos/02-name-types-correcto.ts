@@ -53,3 +53,14 @@
     }
 
 })();
+Explicación de los cambios:
+celsiusTemperatures: Cambié arrayOfNums a celsiusTemperatures para indicar claramente que el arreglo contiene temperaturas en grados Celsius.
+serverIpAddress: Cambié ip a serverIpAddress para especificar que es la dirección IP del servidor.
+users: Cambié people a users para indicar que el listado contiene usuarios.
+userEmails: Cambié emails a userEmails para especificar que el arreglo contiene los correos electrónicos de los usuarios.
+isJumping, isRunning, hasNoItems, isLoading: Cambié jump, run, noTieneItems, loading a nombres booleanos más descriptivos que indican claramente el estado de cada variable.
+startTime, endTime: Cambié start, end a startTime y endTime para indicar que estas variables representan tiempos específicos.
+getBooks: Cambié book a getBooks para indicar que la función obtiene libros.
+fetchBooksFromUrl: Cambié BooksUrl a fetchBooksFromUrl para indicar que la función obtiene libros desde una URL.
+getSquareArea: Cambié areaCuadrado a getSquareArea para especificar que la función calcula el área de un cuadrado.
+printJobIfActive: Cambié printJobIfJobIsActive a printJobIfActive para simplificar y hacer más claro el propósito de la función.
