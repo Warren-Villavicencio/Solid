@@ -1,17 +1,9 @@
-import re
-import math
-from abc import ABC, abstractmethod
 import tkinter as tk
 from tkinter import ttk, scrolledtext
-import pygame
 import pyttsx3
 import threading
 import spacy
 import speech_recognition as sr
-
-# Inicialización de pygame para sonidos
-pygame.init()
-pygame.mixer.init()
 
 # Inicialización del motor de voz
 engine = pyttsx3.init()
@@ -25,10 +17,10 @@ recognizer = sr.Recognizer()
 class InterpreteAvanzado:
     def __init__(self):
         self.operaciones = {
-            "suma": ["sumar", "añadir", "más", "plus"],
-            "resta": ["restar", "quitar", "menos", "minus"],
-            "multiplicacion": ["multiplicar", "por", "veces", "times"],
-            "division": ["dividir", "entre", "sobre", "divide"]
+            "suma": ["sumar", "añadir", "más", "plus", "suma"],
+            "resta": ["restar", "quitar", "menos", "minus", "resta"],
+            "multiplicacion": ["multiplicar", "por", "veces", "times", "multiplicación"],
+            "division": ["dividir", "entre", "sobre", "divide", "división"]
         }
 
     def interpretar(self, comando):
@@ -48,42 +40,18 @@ class InterpreteAvanzado:
         else:
             return None
 
-class OperacionBase(ABC):
-    @abstractmethod
-    def ejecutar(self, a, b):
-        pass
-
-class Suma(OperacionBase):
-    def ejecutar(self, a, b):
-        return a + b
-
-class Resta(OperacionBase):
-    def ejecutar(self, a, b):
-        return a - b
-
-class Multiplicacion(OperacionBase):
-    def ejecutar(self, a, b):
-        return a * b
-
-class Division(OperacionBase):
-    def ejecutar(self, a, b):
-        if b != 0:
-            return a / b
-        else:
-            raise ValueError("No se puede dividir por cero")
-
 class Calculadora:
     def __init__(self):
         self.operaciones = {
-            'suma': Suma(),
-            'resta': Resta(),
-            'multiplicacion': Multiplicacion(),
-            'division': Division()
+            'suma': lambda a, b: a + b,
+            'resta': lambda a, b: a - b,
+            'multiplicacion': lambda a, b: a * b,
+            'division': lambda a, b: a / b if b != 0 else "Error: División por cero"
         }
 
     def calcular(self, operacion, a, b):
         if operacion in self.operaciones:
-            return self.operaciones[operacion].ejecutar(a, b)
+            return self.operaciones[operacion](a, b)
         else:
             raise ValueError(f"Operación no soportada: {operacion}")
 
@@ -127,7 +95,7 @@ class CalculadoraIAGUI:
         self.boton_calcular = ttk.Button(self.input_frame, text="Calcular", command=self.calcular)
         self.boton_calcular.pack(side=tk.RIGHT)
 
-        self.boton_voz = ttk.Button(self.input_frame, text="Hablar", command=self.reconocer_voz)
+        self.boton_voz = ttk.Button(self.input_frame, text="Hablar", command=self.iniciar_reconocimiento_voz)
         self.boton_voz.pack(side=tk.RIGHT)
 
         self.output_frame = ttk.Frame(self.master, padding="10")
@@ -138,7 +106,7 @@ class CalculadoraIAGUI:
 
         self.entrada.bind('<Return>', lambda event: self.calcular())
 
-        # Controles para la voz
+        # Control para la velocidad de voz
         self.voice_frame = ttk.Frame(self.master, padding="10")
         self.voice_frame.pack(fill=tk.X)
 
@@ -146,11 +114,6 @@ class CalculadoraIAGUI:
         self.velocidad_voz = ttk.Scale(self.voice_frame, from_=100, to=200, orient=tk.HORIZONTAL, command=self.actualizar_voz)
         self.velocidad_voz.set(150)
         self.velocidad_voz.pack(side=tk.LEFT, expand=True, fill=tk.X)
-
-        #ttk.Label(self.voice_frame, text="Tono de voz:").pack(side=tk.LEFT)
-        #self.tono_voz = ttk.Scale(self.voice_frame, from_=50, to=150, orient=tk.HORIZONTAL, command=self.actualizar_voz)
-        #self.tono_voz.set(100)
-        #self.tono_voz.pack(side=tk.LEFT, expand=True, fill=tk.X)
 
     def calcular(self):
         comando = self.entrada.get()
@@ -161,14 +124,7 @@ class CalculadoraIAGUI:
     def mostrar_resultado(self, resultado):
         self.salida.insert(tk.END, f"{resultado}\n")
         self.salida.see(tk.END)
-        self.reproducir_sonido()
         self.hablar(resultado)
-
-    def reproducir_sonido(self):
-        # Asegúrate de tener un archivo de sonido llamado "beep.wav" en el mismo directorio
-        # pygame.mixer.Sound("beep.wav
-        # ").play()
-        pass
 
     def hablar(self, texto):
         def decir():
@@ -184,19 +140,19 @@ class CalculadoraIAGUI:
             engine.setProperty('voice', spanish_voice.id)
         self.actualizar_voz()
 
-    
-        
     def actualizar_voz(self, *args):
-       rate = int(self.velocidad_voz.get())
-       engine.setProperty('rate', rate)
+        rate = int(self.velocidad_voz.get())
+        engine.setProperty('rate', rate)
 
-
+    def iniciar_reconocimiento_voz(self):
+        self.boton_voz.config(text="Escuchando...", state=tk.DISABLED)
+        threading.Thread(target=self.reconocer_voz).start()
 
     def reconocer_voz(self):
         with sr.Microphone() as source:
             self.salida.insert(tk.END, "Escuchando... Habla ahora.\n")
             self.salida.see(tk.END)
-            audio = recognizer.listen(source)
+            audio = recognizer.listen(source, timeout=5, phrase_time_limit=5)
 
         try:
             texto = recognizer.recognize_google(audio, language="es-ES")
@@ -211,6 +167,8 @@ class CalculadoraIAGUI:
         except sr.RequestError as e:
             self.salida.insert(tk.END, f"Error en el servicio de reconocimiento de voz; {e}\n")
             self.salida.see(tk.END)
+        finally:
+            self.boton_voz.config(text="Hablar", state=tk.NORMAL)
 
 def main():
     root = tk.Tk()
