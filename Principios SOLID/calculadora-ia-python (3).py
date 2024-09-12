@@ -166,7 +166,8 @@ class CalculadoraIAGUI:
 
     def reproducir_sonido(self):
         # Asegúrate de tener un archivo de sonido llamado "beep.wav" en el mismo directorio
-        # pygame.mixer.Sound("beep.wav").play()
+        # pygame.mixer.Sound("beep.wav
+        # ").play()
         pass
 
     def hablar(self, texto):
